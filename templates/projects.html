@@ -1,0 +1,891 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Projects - Deepanshu Kaushik | Data Analysis & Full Stack Development Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Projects Page Specific Styles */
+    .projects-header {
+        padding: 8rem 0 3rem;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .projects-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .projects-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+    }
+
+    /* Projects Filter */
+    .projects-filter {
+        background: var(--bg-primary);
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .filter-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .filter-btn {
+        background: var(--bg-card);
+        border: 2px solid var(--border-color);
+        color: var(--text-secondary);
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: var(--blue-light);
+        border-color: var(--blue-light);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Projects Grid */
+    .projects-grid-section {
+        background: var(--bg-primary);
+    }
+
+    .project-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .project-card.coming-soon {
+        position: relative;
+        opacity: 0.9;
+    }
+
+    .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-light);
+    }
+
+    .project-image {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+    }
+
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .project-image img {
+        transform: scale(1.05);
+    }
+
+    .project-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .project-card:hover .project-overlay {
+        opacity: 1;
+    }
+
+    .coming-soon-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+    }
+
+    .coming-soon-badge {
+        background: linear-gradient(135deg, var(--accent-purple), var(--blue-light));
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+    }
+
+    /* Status Badges */
+    .status-completed {
+        background: rgba(5, 150, 105, 0.1);
+        color: var(--success);
+        border: 1px solid var(--success);
+    }
+
+    .status-in-progress {
+        background: rgba(217, 119, 6, 0.1);
+        color: var(--warning);
+        border: 1px solid var(--warning);
+    }
+
+    .status-planning {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--blue-light);
+        border: 1px solid var(--blue-light);
+    }
+
+    .status-coming-soon {
+        background: rgba(124, 58, 237, 0.1);
+        color: var(--accent-purple);
+        border: 1px solid var(--accent-purple);
+    }
+
+    .project-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .project-actions .btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .btn-light {
+        background: white;
+        color: var(--gray-800);
+    }
+
+    .btn-light:hover {
+        background: var(--blue-light);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .project-content {
+        padding: 2rem;
+    }
+
+    .project-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+    }
+
+    .project-description {
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+
+    .project-technologies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border: 1px solid var(--border-color);
+    }
+
+    .project-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+    }
+
+    .project-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.375rem 0.75rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        font-size: 0.75rem;
+    }
+
+    .status-completed {
+        background: rgba(5, 150, 105, 0.1);
+        color: var(--success);
+        border: 1px solid var(--success);
+    }
+
+    .status-in-progress {
+        background: rgba(217, 119, 6, 0.1);
+        color: var(--warning);
+        border: 1px solid var(--warning);
+    }
+
+    .status-planning {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--blue-light);
+        border: 1px solid var(--blue-light);
+    }
+
+    /* Project Modal */
+    .modal-content {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.5rem;
+        color: var(--text-primary);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--border-color);
+        padding: 2rem 2rem 1rem;
+        background: var(--bg-secondary);
+        border-radius: 1.5rem 1.5rem 0 0;
+    }
+
+    .modal-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .project-modal-image {
+        border-radius: 1rem;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    .project-modal-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .project-details {
+        margin-bottom: 2rem;
+    }
+
+    .project-details h4 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .project-details p {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .key-features {
+        margin-bottom: 2rem;
+    }
+
+    .key-features h5 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .features-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .features-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-secondary);
+    }
+
+    .features-list li i {
+        color: var(--blue-light);
+        margin-top: 0.25rem;
+        flex-shrink: 0;
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--border-color);
+        padding: 1.5rem 2rem;
+        background: var(--bg-secondary);
+        border-radius: 0 0 1.5rem 1.5rem;
+    }
+
+    .project-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background: var(--blue-light);
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: var(--blue-dark);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 2px solid var(--blue-light);
+        color: var(--blue-light);
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+        background: var(--blue-light);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .coming-soon-modal-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: linear-gradient(135deg, var(--accent-purple), var(--blue-light));
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        z-index: 2;
+    }
+
+    .project-modal-image {
+        position: relative;
+    }
+
+    /* No Projects State */
+    .no-projects {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: var(--bg-card);
+        border: 2px dashed var(--border-color);
+        border-radius: 1.5rem;
+    }
+
+    .no-projects i {
+        font-size: 4rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+    }
+
+    .no-projects h3 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .no-projects p {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .projects-title {
+            font-size: 2.5rem;
+        }
+
+        .filter-buttons {
+            justify-content: flex-start;
+        }
+
+        .project-actions .btn {
+            width: 44px;
+            height: 44px;
+        }
+
+        .project-links {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .project-links .btn {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .projects-header {
+            padding: 6rem 0 2rem;
+        }
+
+        .projects-title {
+            font-size: 2rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            padding: 1.5rem;
+        }
+    }
+
+    /* Animation */
+    .project-card {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Staggered animation delays */
+    .project-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .project-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .project-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .project-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .project-card:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .project-card:nth-child(6) {
+        animation-delay: 0.6s;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Projects Header -->
+<section class="projects-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="projects-title">Professional Portfolio</h1>
+                <p class="projects-subtitle">While I cannot share proprietary projects from my 9+ years in the industry,
+                    these sample projects demonstrate my expertise in data analytics & full-stack development -
+                    featuring 15+ projects with upcoming additions</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Filter -->
+<section class="projects-filter">
+    <div class="container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="data-analytics">Data Analytics</button>
+            <button class="filter-btn" data-filter="web-development">Web Development</button>
+            <button class="filter-btn" data-filter="python-gui">Python GUI</button>
+            <button class="filter-btn" data-filter="machine-learning">Machine Learning / AI</button>
+            <button class="filter-btn" data-filter="coming-soon">Coming Soon</button>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="projects-grid-section section-padding">
+    <div class="container">
+        <div class="row g-4" id="projects-container">
+            {% for project in projects %}
+            <div class="col-xl-4 col-lg-6" data-categories="{{ project.project_type }}"
+                data-status="{{ project.status }}">
+                <div class="project-card {% if project.status == 'coming-soon' %}coming-soon{% endif %}">
+                    <div class="project-image">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                        {% if project.status == 'coming-soon' %}
+                        <div class="coming-soon-overlay">
+                            <div class="coming-soon-badge">
+                                <i class="fas fa-clock"></i>
+                                Coming Soon
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn btn-light view-details" title="View Details"
+                                    data-project-id="{{ project.id }}">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="project-overlay">
+                            <div class="project-actions">
+                                {% if project.project_url %}
+                                <a href="{{ project.project_url }}" target="_blank" class="btn btn-light"
+                                    title="Live Demo">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                {% endif %}
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" target="_blank" class="btn btn-light"
+                                    title="Source Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                {% endif %}
+                                <button class="btn btn-light view-details" title="View Details"
+                                    data-project-id="{{ project.id }}">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        <p class="project-description">{{ project.description|truncatewords:25 }}</p>
+                        <div class="project-technologies">
+                            {% for tech in project.get_technologies_list %}
+                            <span class="tech-tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="project-meta">
+                            <span class="completion-date">
+                                <i class="fas fa-calendar me-1"></i>
+                                {% if project.status == 'coming-soon' and project.expected_launch %}
+                                Expected {{ project.expected_launch|date:"M Y" }}
+                                {% else %}
+                                {{ project.date_created|date:"M Y" }}
+                                {% endif %}
+                            </span>
+                            <span class="project-status status-{{ project.status }}">
+                                <i class="fas 
+                                    {% if project.status == 'completed' %}fa-check-circle
+                                    {% elif project.status == 'in-progress' %}fa-spinner
+                                    {% elif project.status == 'planning' %}fa-lightbulb
+                                    {% else %}fa-clock{% endif %}">
+                                </i>
+                                {{ project.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="no-projects">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>No Projects Yet</h3>
+                    <p>I'm currently working on some exciting projects. Check back soon to see my latest work!</p>
+                    <a href="{% url 'contact' %}" class="btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>Discuss a Project
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Project Modals -->
+{% for project in projects %}
+<div class="modal fade" id="projectModal{{ project.id }}" tabindex="-1"
+    aria-labelledby="projectModalLabel{{ project.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="projectModalLabel{{ project.id }}">{{ project.title }}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="project-modal-image">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    {% if project.status == 'coming-soon' %}
+                    <div class="coming-soon-modal-badge">
+                        <i class="fas fa-clock"></i>
+                        Coming Soon - Expected {{ project.expected_launch|date:"F Y" }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="project-details">
+                    <h4>Project Overview</h4>
+                    <p>{{ project.description|linebreaks }}</p>
+                </div>
+                <div class="key-features">
+                    <h5>Key Features & Technologies</h5>
+                    <div class="project-technologies mb-3">
+                        {% for tech in project.get_technologies_list %}
+                        <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if project.status != 'coming-soon' %}
+                <div class="project-meta">
+                    <p><strong>Completed:</strong> {{ project.date_created|date:"F Y" }}</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <div class="project-links">
+                    {% if project.status != 'coming-soon' %}
+                        {% if project.project_url %}
+                        <a href="{{ project.project_url }}" target="_blank" class="btn-primary">
+                            <i class="fas fa-external-link-alt me-2"></i>Live Demo
+                        </a>
+                        {% endif %}
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" class="btn-outline">
+                            <i class="fab fa-github me-2"></i>Source Code
+                        </a>
+                        {% endif %}
+                    {% else %}
+                    <span class="text-muted">
+                        <i class="fas fa-clock me-2"></i>
+                        This project is under development and will be available soon
+                    </span>
+                    {% endif %}
+                    <button type="button" class="btn-outline" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    class ProjectsPage {
+        constructor() {
+            this.init();
+        }
+
+        init() {
+            this.setupFiltering();
+            this.setupModalHandlers();
+        }
+
+        setupFiltering() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('[data-categories]');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filter = button.getAttribute('data-filter');
+
+                    projectCards.forEach(card => {
+                        const categories = card.getAttribute('data-categories');
+                        const status = card.getAttribute('data-status');
+
+                        if (filter === 'all' || categories === filter) {
+                            card.style.display = 'block';
+                            // Trigger re-animation
+                            card.style.animation = 'none';
+                            setTimeout(() => {
+                                card.style.animation = 'fadeInUp 0.6s ease forwards';
+                            }, 10);
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Update project count
+                    this.updateProjectCount(filter);
+                });
+            });
+        }
+
+        updateProjectCount(filter) {
+            const visibleProjects = document.querySelectorAll(`[data-categories]:not([style*="display: none"])`);
+            const countElement = document.getElementById('project-count') || this.createCountElement();
+
+            // countElement.textContent = `${visibleProjects.length} project${visibleProjects.length !== 1 ? 's' : ''} ${filter !== 'all' ? 'in ' + this.getFilterName(filter) : ''}`;
+        }
+
+        createCountElement() {
+            const countElement = document.createElement('div');
+            countElement.id = 'project-count';
+            countElement.className = 'project-count';
+            countElement.style.cssText = `
+                text-align: center;
+                color: var(--text-secondary);
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                font-weight: 500;
+            `;
+
+            const container = document.querySelector('.projects-filter .container');
+            container.appendChild(countElement);
+
+            return countElement;
+        }
+
+        getFilterName(filter) {
+            const filterNames = {
+                'all': 'All Categories',
+                'data-analytics': 'Data Analytics',
+                'web-development': 'Web Development',
+                'python-gui': 'Python GUI',
+                'machine-learning': 'Machine Learning / AI',
+                'coming-soon': 'Coming Soon'
+            };
+            return filterNames[filter] || filter;
+        }
+
+        setupModalHandlers() {
+            // View details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', () => {
+                    const projectId = button.getAttribute('data-project-id');
+                    const modalElement = document.getElementById(`projectModal${projectId}`);
+
+                    if (modalElement) {
+                        const modal = new bootstrap.Modal(modalElement);
+                        modal.show();
+
+                        // Add click handler for close buttons inside this specific modal
+                        this.setupModalCloseHandlers(modalElement, modal);
+                    }
+                });
+            });
+
+            // Setup close handlers for all existing modals (for page refresh scenarios)
+            document.querySelectorAll('.modal').forEach(modalElement => {
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    this.setupModalCloseHandlers(modalElement, modal);
+                }
+            });
+        }
+
+        setupModalCloseHandlers(modalElement, modal) {
+            // Close button in header (X button)
+            const closeButton = modalElement.querySelector('.btn-close');
+            if (closeButton) {
+                // Remove any existing event listeners and add new one
+                closeButton.replaceWith(closeButton.cloneNode(true));
+                const newCloseButton = modalElement.querySelector('.btn-close');
+                newCloseButton.addEventListener('click', () => {
+                    modal.hide();
+                });
+            }
+
+            // Close button in footer
+            const footerCloseButton = modalElement.querySelector('.btn-outline[data-bs-dismiss="modal"]');
+            if (footerCloseButton) {
+                // Remove any existing event listeners and add new one
+                footerCloseButton.replaceWith(footerCloseButton.cloneNode(true));
+                const newFooterCloseButton = modalElement.querySelector('.btn-outline[data-bs-dismiss="modal"]');
+                newFooterCloseButton.addEventListener('click', () => {
+                    modal.hide();
+                });
+            }
+
+            // Close on backdrop click (outside modal)
+            modalElement.addEventListener('click', (e) => {
+                if (e.target === modalElement) {
+                    modal.hide();
+                }
+            });
+
+            // Close on escape key
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape' && modalElement.classList.contains('show')) {
+                    modal.hide();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+
+            // Clean up event listeners when modal is hidden
+            modalElement.addEventListener('hidden.bs.modal', () => {
+                document.removeEventListener('keydown', escapeHandler);
+            });
+        }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        new ProjectsPage();
+    });
+</script>
+{% endblock %}

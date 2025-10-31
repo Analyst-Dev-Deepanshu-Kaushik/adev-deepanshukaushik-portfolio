@@ -1,0 +1,1808 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resume - Deepanshu Kaushik | Data Analyst & Full Stack Developer | Professional Experience{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Resume Page Specific Styles */
+    .resume-header {
+        padding: 8rem 0 3rem;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .resume-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .resume-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+    }
+
+    .btn-download {
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        border: none;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        margin: 10px;
+        align-items: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-download:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        color: white;
+    }
+
+    /* Experience Section */
+    .experience-section {
+        background: var(--bg-primary);
+    }
+
+    .section-header {
+        margin-bottom: 3rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        border-radius: 2px;
+    }
+
+    .section-subtitle {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        max-width: 1100px;
+    }
+
+    .experience-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .experience-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--blue-light), var(--accent-purple));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .experience-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-light);
+    }
+
+    .experience-card:hover::before {
+        opacity: 1;
+    }
+
+    .experience-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        gap: 1rem;
+    }
+
+    .experience-title h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+    }
+
+    .company-name {
+        color: var(--blue-light);
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .company-location {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .company-location i {
+        color: var(--blue-light);
+        font-size: 0.8rem;
+    }
+
+    .period-badge {
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .experience-summary {
+        margin-bottom: 1.5rem;
+    }
+
+    .experience-summary p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+
+    .experience-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 2px solid var(--blue-light);
+        color: var(--blue-light);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        font-size: 0.875rem;
+    }
+
+    .btn-outline:hover {
+        background: var(--blue-light);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    /* Skills Section */
+    .skills-section {
+        background: var(--bg-secondary);
+    }
+
+    .skill-category-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .skill-category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .skill-category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-light);
+    }
+
+    .skill-category-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .skill-category-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+
+    .skill-category-header h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0;
+        color: var(--text-primary);
+    }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .skill-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: var(--bg-secondary);
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+
+    .skill-item:hover {
+        background: var(--blue-light);
+        color: white;
+        transform: translateX(5px);
+        border-color: var(--blue-light);
+    }
+
+    .skill-item:hover .skill-name {
+        color: white;
+    }
+
+    .skill-icon {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        border-radius: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    .skill-name {
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        transition: color 0.3s ease;
+    }
+
+    /* Languages Section */
+    .languages-section {
+        background: var(--bg-primary);
+        position: relative;
+    }
+
+    .language-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.5rem;
+        padding: 2.5rem 2rem;
+        height: 100%;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .language-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+
+    .language-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-light);
+    }
+
+    .language-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .language-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .language-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    .language-flag {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .language-card:hover .language-flag {
+        border-color: var(--blue-light);
+        transform: scale(1.1);
+    }
+
+    .language-accent {
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+        border: 1px solid var(--border-color);
+    }
+
+    .proficiency-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .proficiency-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .proficiency-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .proficiency-skill {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .progress-bar {
+        height: 8px;
+        background: var(--bg-secondary);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .progress-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 1s ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .progress-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        0% {
+            left: -100%;
+        }
+
+        100% {
+            left: 100%;
+        }
+    }
+
+    /* Proficiency level colors */
+    .proficiency-reading .progress-fill {
+        background: linear-gradient(135deg, var(--success), #10b981);
+    }
+
+    .proficiency-writing .progress-fill {
+        background: linear-gradient(135deg, var(--blue-light), #3b82f6);
+    }
+
+    .proficiency-speaking .progress-fill {
+        background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
+    }
+
+    .proficiency-listening .progress-fill {
+        background: linear-gradient(135deg, var(--warning), #d97706);
+    }
+
+    .language-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .audio-sample-btn {
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        flex: 1;
+        justify-content: center;
+        min-width: 140px;
+    }
+
+    .audio-sample-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        color: white;
+    }
+
+    .audio-sample-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .language-certificate {
+        background: transparent;
+        border: 2px solid var(--blue-light);
+        color: var(--blue-light);
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        flex: 1;
+        justify-content: center;
+        min-width: 140px;
+    }
+
+    .language-certificate:hover {
+        background: var(--blue-light);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    /* Language Level Indicators */
+    .proficiency-level {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+
+    .level-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--gray-400);
+    }
+
+    .level-dot.active {
+        background: var(--success);
+    }
+
+    /* Accents Section */
+    .accents-section {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .accents-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .accents-title i {
+        color: var(--blue-light);
+    }
+
+    .accents-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .accent-tag {
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .accent-tag:hover {
+        background: var(--blue-light);
+        color: white;
+        border-color: var(--blue-light);
+        transform: translateY(-1px);
+    }
+
+    /* Certifications Section */
+    .certifications-section {
+        background: var(--bg-secondary);
+    }
+
+    .certification-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .certification-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        border-radius: 0 1.25rem 0 1.25rem;
+        opacity: 0.1;
+        transition: opacity 0.3s ease;
+    }
+
+    .certification-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-light);
+    }
+
+    .certification-card:hover::after {
+        opacity: 0.2;
+    }
+
+    .certification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        gap: 1rem;
+    }
+
+    .certification-header h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        flex: 1;
+    }
+
+    .certification-date {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+
+    .issuing-org {
+        color: var(--blue-light);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .certification-summary {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .certification-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background: var(--blue-light);
+        border: none;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        font-size: 0.875rem;
+    }
+
+    .btn-primary:hover {
+        background: var(--blue-dark);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    /* Education Section */
+    .education-section {
+        background: var(--bg-primary);
+    }
+
+    .education-timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .education-timeline::before {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--blue-light), var(--accent-purple));
+    }
+
+    .education-item {
+        position: relative;
+        margin-bottom: 2.5rem;
+        padding-left: 80px;
+    }
+
+    .education-item::before {
+        content: '';
+        position: absolute;
+        left: 22px;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        background: var(--blue-light);
+        border-radius: 50%;
+        border: 4px solid var(--bg-primary);
+        z-index: 2;
+    }
+
+    .education-content {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .education-content:hover {
+        transform: translateX(10px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-light);
+    }
+
+    .education-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.5rem;
+        gap: 1rem;
+    }
+
+    .education-header h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        flex: 1;
+    }
+
+    .education-period {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+
+    .institution-name {
+        color: var(--blue-light);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .institution-location {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .institution-location i {
+        color: var(--blue-light);
+        font-size: 0.8rem;
+    }
+
+    .field-of-study {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .education-actions {
+        margin-top: 1rem;
+    }
+
+    /* Modal Styles */
+    .modal-content {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.25rem;
+        color: var(--text-primary);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem 2rem;
+        background: var(--bg-secondary);
+        border-radius: 1.25rem 1.25rem 0 0;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .modal-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .modal-meta>div {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .modal-meta span {
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .modal-meta .company-location,
+    .modal-meta .institution-location {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .modal-meta .company-location i,
+    .modal-meta .institution-location i {
+        color: var(--blue-light);
+        font-size: 0.8rem;
+        margin-right: 0.25rem;
+    }
+
+    .company-name,
+    .issuing-org,
+    .institution {
+        color: var(--blue-light);
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .modal-content-details {
+        line-height: 1.7;
+        color: var(--text-secondary);
+    }
+
+    .modal-content-details h5 {
+        color: var(--text-primary);
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+    }
+
+    .modal-content-details ul {
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .modal-content-details li {
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--border-color);
+        padding: 1.5rem 2rem;
+        background: var(--bg-secondary);
+        border-radius: 0 0 1.25rem 1.25rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .resume-title {
+            font-size: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .experience-header,
+        .certification-header,
+        .education-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .skills-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .language-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .proficiency-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .language-actions {
+            flex-direction: column;
+        }
+
+        .audio-sample-btn,
+        .language-certificate {
+            width: 100%;
+            min-width: auto;
+        }
+
+        .language-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .language-flag {
+            align-self: flex-end;
+        }
+
+        .education-timeline::before {
+            left: 20px;
+        }
+
+        .education-item {
+            padding-left: 60px;
+        }
+
+        .education-item::before {
+            left: 12px;
+        }
+
+        .modal-meta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .resume-header {
+            padding: 6rem 0 2rem;
+        }
+
+        .resume-title {
+            font-size: 2rem;
+        }
+
+        .experience-actions,
+        .certification-actions {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .skill-category-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .language-card {
+            padding: 1.5rem;
+        }
+
+        .accents-grid {
+            justify-content: center;
+        }
+
+        .education-timeline::before {
+            display: none;
+        }
+
+        .education-item {
+            padding-left: 0;
+        }
+
+        .education-item::before {
+            display: none;
+        }
+    }
+
+    /* Animation Classes */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .language-card:hover .progress-fill {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    /* Staggered Animation Delays */
+    .experience-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .experience-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .skill-category-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .skill-category-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .skill-category-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .skill-category-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .language-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .language-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .certification-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .certification-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .education-item:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .education-item:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Resume Header -->
+<section class="resume-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="resume-title">Professional Resume</h1>
+                <p class="resume-subtitle">Data Analyst & Full Stack Developer with 9+ years of progressive experience
+                    transforming business data into strategic insights and building scalable applications</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% static 'documents/resume.pdf' %}" class="btn-download" download>
+                    <i class="fas fa-download me-2"></i>Download PDF Resume
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section class="experience-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Professional Experience</h2>
+            <p class="section-subtitle">9+ years of progressive roles in data management, operations, and full-stack
+                development within the renewable energy sector</p>
+        </div>
+
+        <div class="row g-4">
+            {% for experience in experiences %}
+            <div class="col-lg-6">
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <div class="experience-title">
+                            <h3>{{ experience.position }}</h3>
+                            <div class="company-name">{{ experience.company }}</div>
+                            {% if experience.location %}
+                            <div class="company-location">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ experience.location }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="period-badge">
+                            {{ experience.start_date|date:"M Y" }} -
+                            {% if experience.current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                        </div>
+                    </div>
+                    <div class="experience-summary">
+                        <p>{{ experience.short_description|truncatewords:30 }}</p>
+                    </div>
+                    <div class="experience-actions">
+                        <button type="button" class="btn-outline" data-bs-toggle="modal"
+                            data-bs-target="#experienceModal{{ experience.id }}">
+                            <i class="fas fa-eye me-1"></i>View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="skills-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Technical & Professional Skills</h2>
+            <p class="section-subtitle">Comprehensive expertise developed through hands-on experience across data
+                analysis, full-stack development, and business operations</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Programming Languages -->
+            <div class="col-lg-6">
+                <div class="skill-category-card fade-in">
+                    <div class="skill-category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Programming Languages</h3>
+                    </div>
+                    <div class="skills-grid">
+                        {% for skill in technical_skills %}
+                        {% if skill.category == 'programming' %}
+                        <div class="skill-item">
+                            <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon">
+                            <span class="skill-name">{{ skill.name }}</span>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web Technologies -->
+            <div class="col-lg-6">
+                <div class="skill-category-card fade-in">
+                    <div class="skill-category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Web Technologies</h3>
+                    </div>
+                    <div class="skills-grid">
+                        {% for skill in technical_skills %}
+                        {% if skill.category == 'web' %}
+                        <div class="skill-item">
+                            <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon">
+                            <span class="skill-name">{{ skill.name }}</span>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Analysis -->
+            <div class="col-lg-6">
+                <div class="skill-category-card fade-in">
+                    <div class="skill-category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Data Analysis & Visualization</h3>
+                    </div>
+                    <div class="skills-grid">
+                        {% for skill in technical_skills %}
+                        {% if skill.category == 'data' %}
+                        <div class="skill-item">
+                            <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon">
+                            <span class="skill-name">{{ skill.name }}</span>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="col-lg-6">
+                <div class="skill-category-card fade-in">
+                    <div class="skill-category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Professional Skills</h3>
+                    </div>
+                    <div class="skills-grid">
+                        {% for skill in soft_skills %}
+                        <div class="skill-item">
+                            <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon">
+                            <span class="skill-name">{{ skill.name }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Languages Section -->
+<section class="languages-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Language Proficiency</h2>
+            <p class="section-subtitle">Multilingual communication skills essential for global business collaboration
+                and cross-functional team leadership</p>
+        </div>
+
+        <div class="row g-4">
+            {% for language in languages %}
+            <div class="col-lg-6">
+                <div class="language-card fade-in">
+                    <div class="language-header">
+                        <h3 class="language-name">{{ language.name }}</h3>
+                        {% if language.flag %}
+                        <img src="{{ language.flag.url }}" alt="{{ language.name }} flag" class="language-flag">
+                        {% else %}
+                        <div class="language-flag"
+                            style="background: linear-gradient(135deg, var(--blue-light), var(--accent-purple)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            {{ language.name|slice:":2"|upper }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if language.accent %}
+                    <div class="language-accent">
+                        <i class="fas fa-globe-americas me-1"></i>
+                        {{ language.accent }}
+                    </div>
+                    {% endif %}
+
+                    <div class="proficiency-grid">
+                        <div class="proficiency-item proficiency-reading">
+                            <div class="proficiency-label">
+                                <span class="proficiency-skill">Reading</span>
+                                <span>{{ language.get_reading_proficiency_display }}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ language.reading_percentage }}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="proficiency-item proficiency-writing">
+                            <div class="proficiency-label">
+                                <span class="proficiency-skill">Writing</span>
+                                <span>{{ language.get_writing_proficiency_display }}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ language.writing_percentage }}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="proficiency-item proficiency-speaking">
+                            <div class="proficiency-label">
+                                <span class="proficiency-skill">Speaking</span>
+                                <span>{{ language.get_speaking_proficiency_display }}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ language.speaking_percentage }}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="proficiency-item proficiency-listening">
+                            <div class="proficiency-label">
+                                <span class="proficiency-skill">Listening</span>
+                                <span>{{ language.get_listening_proficiency_display }}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ language.listening_percentage }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if language.accents %}
+                    <div class="accents-section">
+                        <h4 class="accents-title">
+                            <i class="fas fa-microphone"></i>
+                            Accents & Variants
+                        </h4>
+                        <div class="accents-grid">
+                            {% for accent in language.accents_list %}
+                            <span class="accent-tag">{{ accent }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="language-actions">
+                        {% if language.audio_sample %}
+                        <button class="audio-sample-btn audio-btn" data-audio="{{ language.audio_sample.url }}">
+                            <i class="fas fa-volume-up"></i>
+                            Self-introduction in {{ language.name }}
+                        </button>
+                        {% endif %}
+
+                        {% if language.certificate %}
+                        <a href="{{ language.certificate.url }}" class="language-certificate" target="_blank" download>
+                            <i class="fas fa-download"></i>
+                            Certificate
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Certifications Section -->
+<section class="certifications-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Professional Certifications</h2>
+            <p class="section-subtitle">Validated expertise and commitment to continuous professional development in
+                data analysis and software development</p>
+        </div>
+
+        <div class="row g-4">
+            {% for certificate in certificates %}
+            <div class="col-lg-6">
+                <div class="certification-card fade-in">
+                    <div class="certification-header">
+                        <h3>{{ certificate.name }}</h3>
+                        <span class="certification-date">{{ certificate.issue_date|date:"M Y" }}</span>
+                    </div>
+                    <div class="certification-body">
+                        <h4 class="issuing-org">{{ certificate.issuing_organization }}</h4>
+                        <p class="certification-summary">{{ certificate.short_description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="certification-actions">
+                        <button type="button" class="btn-outline" data-bs-toggle="modal"
+                            data-bs-target="#certModal{{ certificate.id }}">
+                            View Details
+                        </button>
+                        {% if certificate.credential_url %}
+                        <a href="{{ certificate.credential_url }}" class="btn-primary" target="_blank">
+                            Verify Credential
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section class="education-section section-padding">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Education & Qualifications</h2>
+            <p class="section-subtitle">Academic foundation complemented by continuous learning and hands-on industry
+                experience</p>
+        </div>
+
+        <div class="education-timeline">
+            {% for edu in education %}
+            <div class="education-item fade-in">
+                <div class="education-content">
+                    <div class="education-header">
+                        <h3>{{ edu.degree }}</h3>
+                        <span class="education-period">
+                            {{ edu.start_date|date:"M Y" }} -
+                            {% if edu.current %}Present{% else %}{{ edu.end_date|date:"M Y" }}{% endif %}
+                        </span>
+                    </div>
+                    <h4 class="institution-name">{{ edu.institution }}</h4>
+                    {% if edu.location %}
+                    <div class="institution-location">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ edu.location }}
+                    </div>
+                    {% endif %}
+                    {% if edu.field_of_study %}
+                    <p class="field-of-study">{{ edu.field_of_study }}</p>
+                    {% endif %}
+                    {% if edu.short_description %}
+                    <div class="education-actions">
+                        <button type="button" class="btn-outline" data-bs-toggle="modal"
+                            data-bs-target="#eduModal{{ edu.id }}">
+                            Read More
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Experience Modals -->
+{% for experience in experiences %}
+<div class="modal fade" id="experienceModal{{ experience.id }}" tabindex="-1"
+    aria-labelledby="experienceModalLabel{{ experience.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="experienceModalLabel{{ experience.id }}">{{ experience.position }}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta">
+                    <div>
+                        <span class="company-name">{{ experience.company }}</span>
+                        {% if experience.location %}
+                        <div class="company-location">
+                            <i class="fas fa-map-marker-alt me-1"></i>{{ experience.location }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <span class="period">
+                        {{ experience.start_date|date:"M Y" }} -
+                        {% if experience.current %}Present{% else %}{{ experience.end_date|date:"M Y" }}{% endif %}
+                    </span>
+                </div>
+                <div class="modal-content-details">
+                    {{ experience.description|linebreaks }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Certification Modals -->
+{% for certificate in certificates %}
+<div class="modal fade" id="certModal{{ certificate.id }}" tabindex="-1"
+    aria-labelledby="certModalLabel{{ certificate.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="certModalLabel{{ certificate.id }}">{{ certificate.name }}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta">
+                    <span class="issuing-org">{{ certificate.issuing_organization }}</span>
+                    <span class="issue-date">Issued {{ certificate.issue_date|date:"M Y" }}</span>
+                </div>
+                {% if certificate.description %}
+                <div class="modal-content-details">
+                    {{ certificate.description|linebreaks }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                {% if certificate.credential_url %}
+                <a href="{{ certificate.credential_url }}" class="btn-primary" target="_blank">
+                    View Credential
+                </a>
+                {% endif %}
+                <button type="button" class="btn-outline" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Education Modals -->
+{% for edu in education %}
+{% if edu.description %}
+<div class="modal fade" id="eduModal{{ edu.id }}" tabindex="-1" aria-labelledby="eduModalLabel{{ edu.id }}"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="eduModalLabel{{ edu.id }}">{{ edu.degree }}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta">
+                    <div>
+                        <span class="institution">{{ edu.institution }}</span>
+                        {% if edu.location %}
+                        <div class="institution-location">
+                            <i class="fas fa-map-marker-alt me-1"></i>{{ edu.location }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <span class="period">
+                        {{ edu.start_date|date:"M Y" }} -
+                        {% if edu.current %}Present{% else %}{{ edu.end_date|date:"M Y" }}{% endif %}
+                    </span>
+                </div>
+                <div class="modal-content-details">
+                    {{ edu.description|linebreaks }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+<!-- Audio Element for Language Samples -->
+<audio id="languageAudio" style="display: none;"></audio>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    class ResumePage {
+        constructor() {
+            this.init();
+        }
+
+        init() {
+            this.setupAudioSamples();
+            this.setupProgressBars();
+            this.setupLanguageHoverEffects();
+            this.setupScrollAnimations();
+            this.setupPrintFunctionality();
+            this.setupSkillHoverEffects();
+        }
+
+        setupProgressBars() {
+            // Animate progress bars when they come into view
+            const progressBars = document.querySelectorAll('.progress-fill');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const progressFill = entry.target;
+                        const targetWidth = progressFill.style.width;
+                        progressFill.style.width = '0%';
+
+                        setTimeout(() => {
+                            progressFill.style.width = targetWidth;
+                        }, 300);
+
+                        observer.unobserve(progressFill);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            progressBars.forEach(bar => observer.observe(bar));
+        }
+
+        setupLanguageHoverEffects() {
+            const languageCards = document.querySelectorAll('.language-card');
+
+            languageCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const flag = card.querySelector('.language-flag');
+                    if (flag) {
+                        flag.style.transform = 'scale(1.1) rotate(5deg)';
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    const flag = card.querySelector('.language-flag');
+                    if (flag) {
+                        flag.style.transform = 'scale(1) rotate(0deg)';
+                    }
+                });
+            });
+        }
+
+        setupAudioSamples() {
+            const audioBtns = document.querySelectorAll('.audio-btn');
+            const audioElement = document.getElementById('languageAudio');
+
+            audioBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const audioUrl = btn.getAttribute('data-audio');
+                    if (audioUrl) {
+                        // Update button state
+                        audioBtns.forEach(b => {
+                            b.innerHTML = '<i class="fas fa-volume-up"></i> Listen Sample';
+                            b.disabled = false;
+                        });
+
+                        btn.innerHTML = '<i class="fas fa-volume-up"></i> Playing...';
+                        btn.disabled = true;
+
+                        audioElement.src = audioUrl;
+                        audioElement.play().catch(e => {
+                            console.log('Audio play failed:', e);
+                            btn.innerHTML = '<i class="fas fa-volume-up"></i> Listen Sample';
+                            btn.disabled = false;
+                        });
+                    }
+                });
+            });
+
+            // Handle audio events
+            audioElement.addEventListener('ended', () => {
+                audioBtns.forEach(btn => {
+                    btn.innerHTML = '<i class="fas fa-volume-up"></i> Listen Sample';
+                    btn.disabled = false;
+                });
+            });
+
+            audioElement.addEventListener('error', () => {
+                audioBtns.forEach(btn => {
+                    btn.innerHTML = '<i class="fas fa-volume-up"></i> Listen Sample';
+                    btn.disabled = false;
+                });
+            });
+        }
+
+        setupScrollAnimations() {
+            // Create Intersection Observer for fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+
+            // Add scroll progress indicator
+            this.setupScrollProgress();
+        }
+
+        setupScrollProgress() {
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+                width: 0%;
+                z-index: 1001;
+                transition: width 0.1s ease;
+            `;
+            document.body.appendChild(progressBar);
+
+            window.addEventListener('scroll', () => {
+                const winHeight = window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.pageYOffset;
+                const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            });
+        }
+
+        setupPrintFunctionality() {
+            // Add print button functionality
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '<i class="fas fa-print me-2"></i>Print Resume';
+            printBtn.className = 'btn-download ms-3';
+            printBtn.style.marginTop = '0';
+
+            printBtn.addEventListener('click', () => {
+                window.print();
+            });
+
+            // Add to download button container
+            const downloadContainer = document.querySelector('.text-lg-end');
+            if (downloadContainer) {
+                downloadContainer.appendChild(printBtn);
+            }
+
+            // Print styles
+            const printStyles = `
+                @media print {
+                    .navbar, .footer, .back-to-top, .btn-download {
+                        display: none !important;
+                    }
+                    
+                    body {
+                        background: white !important;
+                        color: black !important;
+                    }
+                    
+                    .resume-header {
+                        padding: 2rem 0 !important;
+                        background: white !important;
+                    }
+                    
+                    .section-padding {
+                        padding: 2rem 0 !important;
+                    }
+                    
+                    .experience-card, .skill-category-card, .language-card,
+                    .certification-card, .education-content {
+                        border: 1px solid #ddd !important;
+                        box-shadow: none !important;
+                        break-inside: avoid;
+                    }
+                    
+                    .gradient-text {
+                        background: black !important;
+                        -webkit-text-fill-color: black !important;
+                    }
+                }
+            `;
+
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = printStyles;
+            document.head.appendChild(styleSheet);
+        }
+
+        setupSkillHoverEffects() {
+            const skillItems = document.querySelectorAll('.skill-item');
+
+            skillItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const icon = item.querySelector('.skill-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1) rotate(5deg)';
+                    }
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    const icon = item.querySelector('.skill-icon');
+                    if (icon) {
+                        icon.style.transform = 'scale(1) rotate(0deg)';
+                    }
+                });
+            });
+        }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        new ResumePage();
+    });
+</script>
+{% endblock %}

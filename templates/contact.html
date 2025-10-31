@@ -1,0 +1,1219 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact - Deepanshu Kaushik | Data Analyst & Full Stack Developer | Let's Work Together{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Contact Page Specific Styles */
+    .contact-header {
+        padding: 8rem 0 4rem;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 200%;
+        background: radial-gradient(circle, var(--blue-light) 0%, transparent 70%);
+        opacity: 0.03;
+        z-index: 1;
+    }
+
+    .contact-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        z-index: 2;
+    }
+
+    .contact-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Contact Content */
+    .contact-content {
+        background: var(--bg-primary);
+        position: relative;
+    }
+
+    .contact-info-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.5rem;
+        padding: 2.4rem;
+        height: 49%;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        width: 110%;
+        margin-left: -20px;
+    }
+
+    .contact-info-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-light);
+    }
+
+    .contact-info-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .contact-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        border-radius: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.4s ease;
+    }
+
+    .contact-info-card:hover .contact-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .contact-info-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+    }
+
+    .contact-info-card p {
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        font-size: 1rem;
+    }
+
+    .contact-details {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .contact-details li {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+    }
+
+    .contact-details li:hover {
+        transform: translateX(5px);
+    }
+
+    .contact-details li i {
+        color: var(--blue-light);
+        width: 20px;
+        flex-shrink: 0;
+        font-size: 1.1rem;
+    }
+
+    .contact-link {
+        color: var(--blue-light);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 400;
+    }
+
+    .contact-link:hover {
+        color: var(--accent-purple);
+        text-decoration: underline;
+    }
+
+    /* Contact Form */
+    .contact-form-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.5rem;
+        padding: 3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        margin-left: 8px;
+    }
+
+    .contact-form-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+    }
+
+    .contact-form-card:hover {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+    }
+
+    .form-title {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .form-subtitle {
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .form-group {
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.75rem;
+        display: block;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 1.25rem 1.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 1rem;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--blue-light);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        background: var(--bg-card);
+        transform: translateY(-2px);
+        color: var(--text-primary);
+    }
+
+    .form-control::placeholder {
+        color: var(--text-muted);
+        font-weight: 400;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 140px;
+        line-height: 1.6;
+        color: var(--text-primary);
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, var(--blue-light), var(--accent-purple));
+        border: none;
+        color: white;
+        padding: 1.25rem 2.5rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-submit:hover:not(:disabled)::before {
+        left: 100%;
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .btn-submit.loading {
+        position: relative;
+        color: transparent;
+    }
+
+    .btn-submit.loading::after {
+        content: '';
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 2px solid transparent;
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Success Message */
+    .alert-success {
+        background: rgba(5, 150, 105, 0.1);
+        border: 1px solid var(--success);
+        color: var(--success);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 500;
+        animation: slideInDown 0.5s ease-out;
+        border-left: 4px solid var(--success);
+    }
+
+    .alert-success i {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .alert-success .message-content {
+        flex: 1;
+    }
+
+    .alert-success .message-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .alert-success .message-text {
+        font-size: 0.95rem;
+        opacity: 0.9;
+        margin-bottom: 0;
+    }
+
+    .form-success-message {
+        background: var(--bg-card);
+        border: 1px solid var(--success);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        display: none;
+        animation: slideInDown 0.5s ease-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form-success-message::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, var(--success), #10b981);
+    }
+
+    .form-success-message.show {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .success-message-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--success), #10b981);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        animation: bounceIn 0.6s ease-out;
+    }
+
+    .success-message-content {
+        flex: 1;
+    }
+
+    .success-message-content h4 {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .success-message-content p {
+        color: var(--text-secondary);
+        margin-bottom: 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .success-message-close {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .success-message-close:hover {
+        color: var(--text-primary);
+        background: var(--bg-secondary);
+    }
+
+    /* Map Section */
+    .map-section {
+        background: var(--bg-secondary);
+        position: relative;
+    }
+
+    .map-container {
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        height: 400px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .map-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .map-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: var(--text-secondary);
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .map-placeholder i {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: var(--blue-light);
+        opacity: 0.7;
+    }
+
+    .map-placeholder h4 {
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .map-placeholder p {
+        color: var(--text-secondary);
+        margin-bottom: 0;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        background: var(--bg-primary);
+        position: relative;
+    }
+
+    .faq-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .faq-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, var(--blue-light), var(--accent-purple));
+        transform: scaleY(0);
+        transition: transform 0.3s ease;
+    }
+
+    .faq-card:hover {
+        border-color: var(--blue-light);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .faq-card.active {
+        border-color: var(--blue-light);
+        background: var(--bg-secondary);
+    }
+
+    .faq-card.active::before {
+        transform: scaleY(1);
+    }
+
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        padding-right: 1rem;
+    }
+
+    .faq-answer {
+        color: var(--text-secondary);
+        margin-top: 1rem;
+        line-height: 1.7;
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .faq-card.active .faq-answer {
+        display: block;
+    }
+
+    .faq-toggle {
+        color: var(--blue-light);
+        transition: transform 0.3s ease;
+        font-size: 1.1rem;
+    }
+
+    .faq-card.active .faq-toggle {
+        transform: rotate(180deg);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -40%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    @keyframes bounceIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        70% {
+            transform: scale(0.9);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Auto-hide animation */
+    .form-success-message.hiding {
+        animation: slideOutUp 0.5s ease-in forwards;
+    }
+
+    @keyframes slideOutUp {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    }
+
+    /* Responsive Design */
+    @media (min-width: 990px) and (max-width: 1200px) {
+        .contact-info-card,
+        .contact-form-card {
+            padding: 1.5rem;
+        }
+        .contact-info-card {
+            width: 120%;
+            margin-left: -20px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 989px) {
+        .contact-info-card,
+        .contact-form-card {
+            padding: 1.2rem;
+        }
+        .contact-info-card {
+            width: 95%;
+            margin-left: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .contact-title {
+            font-size: 2.5rem;
+        }
+
+        .contact-info-card,
+        .contact-form-card {
+            padding: 1.5rem;
+        }
+
+        .contact-info-card {
+            width: 95%;
+            margin-left: 20px;
+        }
+
+        .form-title {
+            font-size: 1.75rem;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .contact-header {
+            padding: 6rem 0 3rem;
+        }
+
+        .contact-title {
+            font-size: 2rem;
+        }
+
+        .contact-info-card,
+        .contact-form-card {
+            padding: 1.5rem;
+        }
+
+        .contact-info-card {
+            width: 95%;
+            margin-left: 20px;
+        }
+
+        .faq-card {
+            padding: 1.5rem;
+        }
+
+        .form-control {
+            padding: 1rem 1.25rem;
+        }
+
+        .btn-submit {
+            padding: 1rem 2rem;
+        }
+    }
+
+    /* Animation */
+    .contact-info-card,
+    .contact-form-card,
+    .faq-card {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Staggered animation delays */
+    .contact-info-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .contact-info-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .contact-form-card {
+        animation-delay: 0.3s;
+    }
+
+    .faq-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .faq-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .faq-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .faq-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    /* Form Field Focus Effects */
+    .form-group.focused .form-label {
+        color: var(--blue-light);
+        transform: translateY(-5px);
+    }
+
+    .form-group.focused .form-control {
+        border-color: var(--blue-light);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Contact Header -->
+<section class="contact-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="contact-title">Professional Collaboration</h1>
+                <p class="contact-subtitle">Interested in data-driven solutions for your business? Let's discuss how we can work together to optimize operations and drive growth.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<section class="contact-content section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Contact Information -->
+            <div class="col-lg-4">
+                <div class="contact-info-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Professional Inquiry</h3>
+                    <p>Interested in discussing data solutions, process optimization, or potential collaborations? I'm always open to connecting with professionals and exploring opportunities for knowledge exchange.</p>
+                    <ul class="contact-details">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:analystdev.deepanshuk@gmail.com" class="contact-link">analystdev.deepanshuk@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+919084741608" class="contact-link">+91 90847 41608</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Noida, India</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="contact-info-card mt-4">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Professional Availability</h3>
+                    <p>While currently engaged full-time at Get Set Business Solutions Pvt. Ltd., I'm responsive to professional inquiries and collaboration opportunities during evenings and weekends.</p>
+                    <ul class="contact-details">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Response within 24-48 hours</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-briefcase"></i>
+                            <span>Open to professional networking</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="contact-form-card">
+                    <h2 class="form-title">Send Me a Message</h2>
+                    <p class="form-subtitle">Fill out the form below and I'll get back to you as soon as possible.</p>
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <form method="post" id="contactForm">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="id_name" class="form-label">Full Name *</label>
+                                    {{ form.name }}
+                                    {% if form.name.errors %}
+                                    <div class="text-danger mt-1">
+                                        {{ form.name.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="id_email" class="form-label">Email Address *</label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                    <div class="text-danger mt-1">
+                                        {{ form.email.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_subject" class="form-label">Subject *</label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="text-danger mt-1">
+                                {{ form.subject.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_message" class="form-label">Message *</label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                            <div class="text-danger mt-1">
+                                {{ form.message.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                        <!-- Success Message Container -->
+                        <div class="form-success-message" id="successMessage">
+                            <div class="success-message-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="success-message-content">
+                                <h4>Message Sent Successfully!</h4>
+                                <p>Thank you for reaching out! I've received your message and will get back to you
+                                    within 24-48 hours.</p>
+                            </div>
+                            <button class="success-message-close" onclick="this.parentElement.classList.remove('show')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h4>Based in Noida, India</h4>
+                        <p>Experienced in working with global teams and remote collaboration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="section-header text-center mb-5">
+                    <h2 class="section-title">Professional Collaboration FAQs</h2>
+                    <p class="section-subtitle">Common questions about working together on data and development projects</p>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        <span>What types of business problems do you typically help solve?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>I specialize in solving operational efficiency challenges, data management issues, process optimization, and business intelligence needs. With my background in the solar energy sector, I'm particularly skilled at addressing industry-specific data challenges while bringing cross-industry best practices.</p>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        <span>How does your solar industry experience benefit other sectors?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The renewable energy sector demands rigorous data management, operational efficiency, and scalable solutions. These skills transfer exceptionally well to other industries facing similar challenges with data optimization, process improvement, and digital transformation initiatives.</p>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        <span>What is your availability for consulting projects?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>While I'm currently employed full-time at Get Set Business Solutions Pvt. Ltd., I'm available for limited consulting engagements, particularly those that align with my expertise in data analysis and full-stack development. I typically reserve evenings and weekends for select projects that demonstrate strong potential for mutual value creation.</p>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        <span>Do you work with teams outside the renewable energy sector?</span>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely. While my current role is in solar energy, my data analysis and development skills are industry-agnostic. I've successfully applied these capabilities across various business contexts and am always excited to learn about new industries and their unique data challenges.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    class ContactPage {
+        constructor() {
+            this.init();
+        }
+
+        init() {
+            this.setupFormHandling();
+            this.setupFAQToggle();
+            this.setupInputAnimations();
+        }
+
+        setupFormHandling() {
+            const contactForm = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    // Client-side validation
+                    if (!this.validateForm()) {
+                        return;
+                    }
+
+                    // Show loading state
+                    this.setLoadingState(true);
+
+                    try {
+                        const formData = new FormData(contactForm);
+
+                        const response = await fetch('{% url "contact" %}', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRFToken': this.getCSRFToken()
+                            }
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            this.showSuccessMessage();
+                            contactForm.reset();
+                        } else {
+                            this.showFormErrors(data.errors);
+                        }
+                    } catch (error) {
+                        console.error('Form submission error:', error);
+                        this.showErrorMessage();
+                    } finally {
+                        this.setLoadingState(false);
+                    }
+                });
+            }
+        }
+
+        validateForm() {
+            const requiredFields = document.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    this.showFieldError(field, 'This field is required');
+                } else {
+                    this.clearFieldError(field);
+                }
+            });
+
+            // Email validation
+            const emailField = document.getElementById('id_email');
+            if (emailField && emailField.value.trim()) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailField.value)) {
+                    isValid = false;
+                    this.showFieldError(emailField, 'Please enter a valid email address');
+                }
+            }
+
+            return isValid;
+        }
+
+        showFieldError(field, message) {
+            this.clearFieldError(field);
+
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'text-danger mt-1';
+            errorDiv.style.fontSize = '0.875rem';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle me-1"></i>${message}`;
+
+            field.parentNode.appendChild(errorDiv);
+            field.style.borderColor = 'var(--danger)';
+        }
+
+        clearFieldError(field) {
+            const existingError = field.parentNode.querySelector('.text-danger');
+            if (existingError) {
+                existingError.remove();
+            }
+            field.style.borderColor = '';
+        }
+
+        showFormErrors(errors) {
+            // Clear all existing errors first
+            document.querySelectorAll('.text-danger').forEach(error => error.remove());
+
+            // Show new errors
+            for (const field in errors) {
+                const fieldElement = document.getElementById(`id_${field}`);
+                if (fieldElement) {
+                    this.showFieldError(fieldElement, errors[field][0]);
+                }
+            }
+        }
+
+        setLoadingState(loading) {
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn) {
+                if (loading) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('loading');
+                    submitBtn.innerHTML = '<i class="fas fa-spinner"></i> Sending...';
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Message';
+                }
+            }
+        }
+
+        showSuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                // Show the success message
+                successMessage.classList.add('show');
+
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    if (successMessage.classList.contains('show')) {
+                        successMessage.classList.add('hiding');
+                        setTimeout(() => {
+                            successMessage.classList.remove('show', 'hiding');
+                        }, 500);
+                    }
+                }, 5000);
+
+                // Close button functionality
+                const closeBtn = successMessage.querySelector('.success-message-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        successMessage.classList.add('hiding');
+                        setTimeout(() => {
+                            successMessage.classList.remove('show', 'hiding');
+                        }, 500);
+                    });
+                }
+            }
+        }
+
+        showErrorMessage() {
+            alert('Sorry, there was an error sending your message. Please try again or contact me directly at john.doe@example.com');
+        }
+
+        getCSRFToken() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+            return csrfToken ? csrfToken.value : '';
+        }
+
+        setupFAQToggle() {
+            const faqCards = document.querySelectorAll('.faq-card');
+
+            faqCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const isActive = card.classList.contains('active');
+
+                    // Close all other FAQ cards
+                    faqCards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle current card
+                    card.classList.toggle('active', !isActive);
+                });
+            });
+        }
+
+        setupInputAnimations() {
+            const inputs = document.querySelectorAll('.form-control');
+
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.parentElement.classList.add('focused');
+                });
+
+                input.addEventListener('blur', () => {
+                    if (!input.value) {
+                        input.parentElement.classList.remove('focused');
+                    }
+                });
+
+                // Initialize focused state if input has value
+                if (input.value) {
+                    input.parentElement.classList.add('focused');
+                }
+            });
+        }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        new ContactPage();
+    });
+</script>
+{% endblock %}
