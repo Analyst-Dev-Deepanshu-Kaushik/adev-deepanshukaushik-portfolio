@@ -29,14 +29,14 @@ Welcome to the source code of my personal portfolio! This isn't just a static we
 
 ## 🛠️ Tech Stack
 
-**Frontend:**
-# Core Technologies
+### **Frontend:**
+### Core Technologies
 HTML5, CSS3, JavaScript (ES6+)
 
-# Frameworks & Styling
+### Frameworks & Styling
 Bootstrap 5, Custom CSS Theming
 
-# Key Features
+### Key Features
 - Responsive grid layout and components
 - Dynamic theme switching (light/dark mode)
 - System preference detection for auto-theming
@@ -44,14 +44,14 @@ Bootstrap 5, Custom CSS Theming
 - Interactive project modals and filtering
 - Custom animations and hover effects
 
-**Backend:**
-# Server & Framework
+### **Backend:**
+### Server & Framework
 Python 3.13, Django 5.x
 
-# Database & ORM
+### Database & ORM
 SQLite, Django ORM
 
-# Core Components
+### Core Components
 - Django MVC Architecture
 - Admin Panel for content management
 - Model definitions for Projects, Skills, Experience
@@ -59,11 +59,11 @@ SQLite, Django ORM
 - URL routing and view controllers
 - Database migrations and schema management
 
-**Deployment:**
-# Platform & Infrastructure
+### **Deployment:**
+### Platform & Infrastructure
 PythonAnywhere
 
-# Deployment Process
+### Deployment Process
 - Git-based deployment workflow
 - WSGI configuration for Django
 - Static files collection and serving
@@ -72,10 +72,11 @@ PythonAnywhere
 
 ---
 
-# 🔮 Version 1.0 Highlights
+## 🔮 Version 1.0 Highlights
 - ✅ Full-stack Django application with dynamic content rendering
 - ✅ Responsive design that works seamlessly across all devices
 - ✅ Admin-controlled content for easy portfolio updates
 - ✅ Project categorization with detailed modal views
 - ✅ Production deployment on PythonAnywhere
 
+**⭐ If you find this project interesting or helpful, please give it a star! ⭐**
