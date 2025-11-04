@@ -2,7 +2,7 @@
 
 Welcome to the source code of my personal portfolio! This isn't just a static website; it's a **fully functional, self-administered web application** built from the ground up using Django. It serves as a live demonstration of my capabilities in full-stack web development.
 
-[![Live Demo](https://img.shields.io/badge/🚀-Live%20Demo-brightgreen?style=for-the-badge)](YOUR_PYTHONANYWHERE_LINK_HERE)
+[![Live Demo](https://img.shields.io/badge/🚀-Live%20Demo-brightgreen?style=for-the-badge)](https://adevdeepanshuk.pythonanywhere.com)
 [![Django](https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=green)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=flat-square&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 
@@ -30,13 +30,13 @@ Welcome to the source code of my personal portfolio! This isn't just a static we
 ## 🛠️ Tech Stack
 
 ### **Frontend:**
-### Core Technologies
-HTML5, CSS3, JavaScript (ES6+)
+#### Core Technologies
+**HTML5, CSS3, JavaScript (ES6+)**
 
-### Frameworks & Styling
-Bootstrap 5, Custom CSS Theming
+#### Frameworks & Styling
+**Bootstrap 5, Custom CSS Theming**
 
-### Key Features
+#### Key Features
 - Responsive grid layout and components
 - Dynamic theme switching (light/dark mode)
 - System preference detection for auto-theming
@@ -45,13 +45,13 @@ Bootstrap 5, Custom CSS Theming
 - Custom animations and hover effects
 
 ### **Backend:**
-### Server & Framework
-Python 3.13, Django 5.x
+#### Server & Framework
+**Python 3.13, Django 5.x**
 
-### Database & ORM
-SQLite, Django ORM
+#### Database & ORM
+**SQLite, Django ORM**
 
-### Core Components
+#### Core Components
 - Django MVC Architecture
 - Admin Panel for content management
 - Model definitions for Projects, Skills, Experience
@@ -60,8 +60,8 @@ SQLite, Django ORM
 - Database migrations and schema management
 
 ### **Deployment:**
-### Platform & Infrastructure
-PythonAnywhere
+#### Platform & Infrastructure
+**PythonAnywhere**
 
 ### Deployment Process
 - Git-based deployment workflow
